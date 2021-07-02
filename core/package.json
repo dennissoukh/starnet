@@ -1,0 +1,19 @@
+{
+  "name": "starnet",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "repository": "https://github.com/dennissoukhikh/starnet",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node ./bin/run"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "fastify": "^3.18.1"
+  },
+  "devDependencies": {
+    "@types/node": "^15.14.0",
+    "typescript": "^4.3.5"
+  }
+}
