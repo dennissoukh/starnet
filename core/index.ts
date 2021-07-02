@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import postgres from 'fastify-postgres';
 
 /**
  * Create the application
@@ -6,6 +7,24 @@ import fastify from 'fastify';
 const app = fastify({
   logger: true,
   ignoreTrailingSlash: true,
+});
+
+/**
+ * Add the database to the application
+ */
+app.register(postgres, {
+  connectionString: 'postgres://postgres:123456@localhost/capella',
+});
+
+/**
+ * Bind routes to the application
+ */
+const routes = [
+  require('./src/routes/app'),
+];
+
+routes.forEach((route: any) => {
+  app.register(route, { ...route });
 });
 
 /**
