@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import '../styles/globals.css';
 import Dashboard from './Dashboard';
 
 const App: React.FC = () => {

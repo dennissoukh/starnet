@@ -1,5 +1,6 @@
 @import "tailwindcss/base";
 @import "tailwindcss/utilities";
+@import url("./untitled-sans.css");
 
 * {
   scrollbar-width: thin;
