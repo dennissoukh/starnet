@@ -1,0 +1,18 @@
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+
+* {
+  scrollbar-width: thin;
+}
+
+::-moz-selection {
+  background-color: rgb(179, 212, 252);
+  color: black;
+  text-shadow: none;
+}
+
+::selection {
+  background-color: rgb(179, 212, 252);
+  color: black;
+  text-shadow: none;
+}
