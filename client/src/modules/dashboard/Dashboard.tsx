@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Dashboard: React.FC = () => {
   return (
-    <div className="w-full md:w-1/2 p-8">
+    <div className="w-full lg:w-1/2 p-8">
       <div className="bg-primary-800 w-full px-6 py-4 rounded-lg flex justify-between">
         <div>
           <span className="text-sm">Starnet v0.0.5</span>

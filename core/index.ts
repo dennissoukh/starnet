@@ -21,6 +21,7 @@ app.register(postgres, {
  */
 const routes = [
   require('./src/routes/app'),
+  require('./src/routes/stars'),
 ];
 
 routes.forEach((route: any) => {

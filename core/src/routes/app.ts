@@ -152,6 +152,21 @@ const routes = async (app: any, _opts: any) => {
       message: 'hygdata_v3.csv saved in database',
     });
   });
+
+  app.get('/database/custom-functions', async (_req: any, reply: any) => {
+    const client = await app.pg.connect();
+
+    await client.query(
+      `CREATE OR REPLACE FUNCTION f_concat_ws(text, VARIADIC text[])
+      RETURNS text LANGUAGE sql IMMUTABLE AS 'SELECT array_to_string($2, $1)';`
+    )
+
+    client.release();
+
+    reply.send({
+      essage: 'Database functions created',
+    })
+  });
 }
 
 module.exports = routes;
