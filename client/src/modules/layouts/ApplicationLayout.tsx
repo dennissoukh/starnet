@@ -1,5 +1,6 @@
 import React from 'react';
 import { useScreenType } from '../../hooks/useScreenType';
+import Sidebar from '../../ui/sidebar/Sidebar';
 
 const ApplicationLayout: React.FC = ({ children }) => {
   const screenType = useScreenType();
@@ -11,10 +12,13 @@ const ApplicationLayout: React.FC = ({ children }) => {
   return (
     <>
       {isDesktop()
-        ? 'desktop'
-        : 'mobile'
+        ? null
+        : null
       }
-      {children}
+      <Sidebar/>
+      <div style={{ paddingLeft: '90px' }}>
+        {children}
+      </div>
     </>
   )
 };
