@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: [
-        'Untitled Sans',
+        'Inter',
         '-apple-system',
         'BlinkMacSystemFont',
         'Segoe UI',
@@ -12,7 +12,14 @@ module.exports = {
         'Helvetica',
         'Arial',
         'sans-serif',
-      ]
+      ],
+      mono: [
+        'SF Mono',
+        'Menlo',
+        'Monaco',
+        'Courier New',
+        'monospace',
+      ],
     },
     colors: {
       transparent: 'transparent',

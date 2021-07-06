@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/utilities";
-@import url("./untitled-sans.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.18.0/inter.css");
+@import url('http://fonts.cdnfonts.com/css/sf-mono');
 
 * {
   scrollbar-width: thin;
@@ -38,4 +39,20 @@ body,
   width: 100%;
   background-color: var(--color-primary-900);
   color: var(--color-primary-100);
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2.2rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.4rem;
 }

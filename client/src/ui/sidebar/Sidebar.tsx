@@ -5,7 +5,7 @@ const Sidebar: React.FC = () => {
   return (
     <div
       style={{ width: '90px', height: '100vh' }}
-      className="absolute top-0 left-0 flex items-center justify-center"
+      className="absolute top-0 left-0 flex items-center justify-center bg-primary-800"
     >
       <div className="text-primary-300">
         <div className="bg-primary-700 p-3 rounded-lg">
