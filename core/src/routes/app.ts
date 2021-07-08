@@ -35,10 +35,6 @@ const routes = async (app: any, _opts: any) => {
         vx float8,
         vy float8,
         vz float8,
-        rarad float8,
-        decrad float8,
-        pmrarad float8,
-        pmdecrad float8,
         bayer varchar(255),
         flam int,
         con varchar(255),
@@ -98,11 +94,7 @@ const routes = async (app: any, _opts: any) => {
           $30,
           $31,
           $32,
-          $33,
-          $34,
-          $35,
-          $36,
-          $37
+          $33
         );`,
         [
           star.id,
@@ -128,10 +120,6 @@ const routes = async (app: any, _opts: any) => {
           star.vx,
           star.vy,
           star.vz,
-          star.rarad,
-          star.decrad,
-          star.pmrarad,
-          star.pmdecrad,
           star.bayer,
           star.flam,
           star.con,
@@ -164,7 +152,7 @@ const routes = async (app: any, _opts: any) => {
     client.release();
 
     reply.send({
-      essage: 'Database functions created',
+      message: 'Database functions created',
     })
   });
 }

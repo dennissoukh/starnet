@@ -11,18 +11,18 @@ const parseHYGFile = async () => {
     trim: true,
   });
 
-  const processed = stars.map((star: any) => ({
+  let processed = stars.map((star: any) => ({
     id: parseEmptyInt(star.id),
     hip: parseEmptyInt(star.hip),
     hd: parseEmptyInt(star.hd),
     gl: parseEmptyString(star.gl),
     bf: parseEmptyString(star.bf),
     proper: parseEmptyString(star.proper),
-    ra: parseEmptyFloat(star.ra),
-    dec: parseEmptyFloat(star.dec),
+    ra: parseEmptyFloat(star.rarad),
+    dec: parseEmptyFloat(star.decrad),
     dist: parseEmptyFloat(star.dist),
-    pmra: parseEmptyFloat(star.pmra),
-    pmdec: parseEmptyFloat(star.pmdec),
+    pmra: parseEmptyFloat(star.pmrarad),
+    pmdec: parseEmptyFloat(star.pmdecrad),
     rv: parseEmptyFloat(star.rv),
     mag: parseEmptyFloat(star.mag),
     absmag: parseEmptyFloat(star.absmag),
@@ -34,10 +34,6 @@ const parseHYGFile = async () => {
     vx: parseEmptyFloat(star.vx),
     vy: parseEmptyFloat(star.vy),
     vz: parseEmptyFloat(star.vz),
-    rarad: parseEmptyFloat(star.rarad),
-    decrad: parseEmptyFloat(star.decrad),
-    pmrarad: parseEmptyFloat(star.pmrarad),
-    pmdecrad: parseEmptyFloat(star.pmdecrad),
     bayer: parseEmptyString(star.bayer),
     flam: parseEmptyInt(star.flam),
     con: parseEmptyString(star.con),
@@ -49,6 +45,12 @@ const parseHYGFile = async () => {
     var_min: parseEmptyFloat(star.var_min),
     var_max: parseEmptyFloat(star.var_max),
   }));
+
+  // Remove Sun from catalogue
+  // TODO: Remove Capella B and α Cen B from catalogue
+  processed = processed.filter((star: any) => {
+    return star.proper !== 'Sol';
+  });
 
   return processed;
 }
