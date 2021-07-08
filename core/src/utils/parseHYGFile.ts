@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import parse from 'csv-parse/lib/sync';
+import { parseEmptyInt, parseEmptyFloat, parseEmptyString } from './dataParsers';
 
 const parseHYGFile = async () => {
   const csv = fs.readFileSync(path.resolve('data/hygdata_v3.csv'), 'utf8');
@@ -53,30 +54,6 @@ const parseHYGFile = async () => {
   });
 
   return processed;
-}
-
-const parseEmptyInt = (str: string) => {
-  if (!str) {
-    return null;
-  } else {
-    return parseInt(str, 10);
-  }
-}
-
-const parseEmptyFloat = (str: string) => {
-  if (!str) {
-    return null;
-  } else {
-    return parseFloat(str);
-  }
-}
-
-const parseEmptyString = (str: string) => {
-  if (str) {
-    return str;
-  } else {
-    return null;
-  }
 }
 
 export default parseHYGFile;

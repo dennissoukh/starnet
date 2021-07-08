@@ -1,4 +1,4 @@
-const routes = async (app: any, _opts: any) => {
+const starRoutes = async (app: any, _opts: any) => {
 
   // Page -> page number
   // Items -> number of items per page
@@ -52,4 +52,4 @@ const routes = async (app: any, _opts: any) => {
   });
 }
 
-module.exports = routes;
+module.exports = starRoutes;
