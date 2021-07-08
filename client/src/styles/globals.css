@@ -1,0 +1,58 @@
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+@import url("https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.18.0/inter.css");
+@import url('http://fonts.cdnfonts.com/css/sf-mono');
+
+* {
+  scrollbar-width: thin;
+}
+
+::-moz-selection {
+  background-color: rgb(179, 212, 252);
+  color: black;
+  text-shadow: none;
+}
+
+::selection {
+  background-color: rgb(179, 212, 252);
+  color: black;
+  text-shadow: none;
+}
+
+:root {
+  --color-primary-100: #DEE3EA;
+  --color-primary-200: #B2BDCD;
+  --color-primary-300: #5D7290;
+  --color-primary-600: #323D4D;
+  --color-primary-700: #242C37;
+  --color-primary-800: #151A21;
+  --color-primary-900: #0B0E11;
+  --color-accent: #5575E7;
+  --color-accent-washed-out: #7690EB;
+  --color-accent-disabled: #AABAF3;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-primary-900);
+  color: var(--color-primary-100);
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2.2rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.4rem;
+}

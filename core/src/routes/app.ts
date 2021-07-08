@@ -1,3 +1,4 @@
+import parseDSOFile from '../utils/parseDSOFile';
 import parseHYGFile from '../utils/parseHYGFile';
 
 const routes = async (app: any, _opts: any) => {
@@ -35,10 +36,6 @@ const routes = async (app: any, _opts: any) => {
         vx float8,
         vy float8,
         vz float8,
-        rarad float8,
-        decrad float8,
-        pmrarad float8,
-        pmdecrad float8,
         bayer varchar(255),
         flam int,
         con varchar(255),
@@ -49,6 +46,29 @@ const routes = async (app: any, _opts: any) => {
         var varchar(255),
         var_min float8,
         var_max float8
+      );`,
+    );
+
+    await client.query(
+      `CREATE TABLE IF NOT EXISTS dso (
+        id serial PRIMARY KEY,
+        type varchar(255),
+        const varchar(255),
+        mag float8,
+        name varchar(255),
+        ra float8,
+        dec float8,
+        r1 float8,
+        r2 float8,
+        angle float8,
+        dso_source int,
+        id1 int,
+        cat1 varchar(255),
+        id2 int,
+        cat2 varchar(255),
+        dupid int,
+        dupcat varchar(255),
+        display_mag int
       );`,
     );
 
@@ -98,11 +118,7 @@ const routes = async (app: any, _opts: any) => {
           $30,
           $31,
           $32,
-          $33,
-          $34,
-          $35,
-          $36,
-          $37
+          $33
         );`,
         [
           star.id,
@@ -128,10 +144,6 @@ const routes = async (app: any, _opts: any) => {
           star.vx,
           star.vy,
           star.vz,
-          star.rarad,
-          star.decrad,
-          star.pmrarad,
-          star.pmdecrad,
           star.bayer,
           star.flam,
           star.con,
@@ -151,6 +163,78 @@ const routes = async (app: any, _opts: any) => {
     reply.send({
       message: 'hygdata_v3.csv saved in database',
     });
+  });
+
+  app.get('/database/dso', async (_req: any, reply: any) => {
+    const objects = await parseDSOFile();
+    const client = await app.pg.connect();
+
+    for await (const object of objects) {
+      console.log(object.id)
+      await client.query(
+        `INSERT INTO dso VALUES (
+          $1,
+          $2,
+          $3,
+          $4,
+          $5,
+          $6,
+          $7,
+          $8,
+          $9,
+          $10,
+          $11,
+          $12,
+          $13,
+          $14,
+          $15,
+          $16,
+          $17,
+          $18
+        );`,
+        [
+          object.id,
+          object.type,
+          object.const,
+          object.mag,
+          object.name,
+          object.ra,
+          object.dec,
+          object.r1,
+          object.r2,
+          object.angle,
+          object.dso_source,
+          object.id1,
+          object.cat1,
+          object.id2,
+          object.cat2,
+          object.dupid,
+          object.dupcat,
+          object.display_mag,
+        ]
+      )
+    }
+
+    client.release();
+
+    reply.send({
+      message: 'dso.csv saved in database',
+    });
+  });
+
+  app.get('/database/custom-functions', async (_req: any, reply: any) => {
+    const client = await app.pg.connect();
+
+    await client.query(
+      `CREATE OR REPLACE FUNCTION f_concat_ws(text, VARIADIC text[])
+      RETURNS text LANGUAGE sql IMMUTABLE AS 'SELECT array_to_string($2, $1)';`
+    )
+
+    client.release();
+
+    reply.send({
+      message: 'Database functions created',
+    })
   });
 }
 
