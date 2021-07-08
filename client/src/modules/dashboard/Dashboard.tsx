@@ -1,9 +1,6 @@
 import React from 'react';
-import { MoonPosElpMpp02 } from '../../utils/astronomy/simplifiedELPMPP02';
 
 export const Dashboard: React.FC = () => {
-  console.log(MoonPosElpMpp02(2459404.34459, true))
-
   return (
     <div className="w-full lg:w-1/2 p-8">
       <div className="bg-primary-800 w-full px-6 py-4 rounded-lg flex justify-between">

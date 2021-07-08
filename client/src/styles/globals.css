@@ -1,7 +1,6 @@
 @import "tailwindcss/base";
 @import "tailwindcss/utilities";
-@import url("https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.18.0/inter.css");
-@import url('http://fonts.cdnfonts.com/css/sf-mono');
+@import url("./switzer.css");
 
 * {
   scrollbar-width: thin;

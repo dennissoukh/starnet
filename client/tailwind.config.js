@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: [
-        'Inter',
+        'Switzer-Variable',
         '-apple-system',
         'BlinkMacSystemFont',
         'Segoe UI',
