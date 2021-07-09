@@ -1,5 +1,7 @@
 import fastify from 'fastify';
 import postgres from 'fastify-postgres';
+import helmet from 'fastify-helmet';
+import cors from 'fastify-cors';
 
 /**
  * Create the application
@@ -8,6 +10,12 @@ const app = fastify({
   logger: true,
   ignoreTrailingSlash: true,
 });
+
+/**
+ * Add helmet & cors packages to the application
+ */
+app.register(helmet);
+app.register(cors, { origin: true });
 
 /**
  * Add the database to the application

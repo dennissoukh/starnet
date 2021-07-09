@@ -1,7 +1,7 @@
 // Compute the precession matrix used for tranforming
 
 import { PrecessionMatrix } from "../../../types/precession";
-import { mod2pi } from "../math";
+// import { mod2pi } from "../math";
 
 // Ra and Dec from time T0 to T0+T
 export const precessionMatrix = (T0: number, T: number) => {
@@ -38,68 +38,68 @@ export const precessionMatrix = (T0: number, T: number) => {
 /**
  * Compute the precession matrix used for tranforming the Ra and Dec from time T0 to T0+T
  */
-const precessionMatrixAstronomy = (T0: number, T: number) => {
-  let T0sq = T0 * T0;
-  let Tsq = T * T;
-  let Tcube = Tsq * T;
-  let sec_to_rad = Math.PI / 180 / 3600;
-  let zeta = (2306.2181 + 1.39656 * T0 - 0.000139 * T0sq) * T + (0.30188 - 0.000345 * T0) * Tsq + 0.017998 * Tcube;
-  zeta *= sec_to_rad;
-  zeta -= 2 * Math.PI * Math.floor(zeta * 0.5 / Math.PI);
-  let cosZeta = Math.cos(zeta);
-  let sinZeta = Math.sin(zeta);
-  let theta = (2004.3109 - 0.8533 * T0 - 0.000217 * T0sq) * T + (-0.42665 - 0.000217 * T0) * Tsq - 0.041833 * Tcube;
-  theta *= sec_to_rad;
-  theta -= 2 * Math.PI * Math.floor(theta * 0.5 / Math.PI);
-  let cosTheta = Math.cos(theta);
-  let sinTheta = Math.sin(theta);
-  let z = (0.7928 + 0.000411 * T0) * Tsq + 0.000205 * Tcube;
-  z *= sec_to_rad;
-  z -= 2 * Math.PI * Math.floor(z * 0.5 / Math.PI);
-  z += zeta;
-  let cosZ = Math.cos(z);
-  let sinZ = Math.sin(z);
-  let p = {
-    p11: 0,
-    p12: 0,
-    p13: 0,
-    p21: 0,
-    p22: 0,
-    p23: 0,
-    p31: 0,
-    p32: 0,
-    p33: 0,
-  };
+// const precessionMatrixAstronomy = (T0: number, T: number) => {
+//   let T0sq = T0 * T0;
+//   let Tsq = T * T;
+//   let Tcube = Tsq * T;
+//   let sec_to_rad = Math.PI / 180 / 3600;
+//   let zeta = (2306.2181 + 1.39656 * T0 - 0.000139 * T0sq) * T + (0.30188 - 0.000345 * T0) * Tsq + 0.017998 * Tcube;
+//   zeta *= sec_to_rad;
+//   zeta -= 2 * Math.PI * Math.floor(zeta * 0.5 / Math.PI);
+//   let cosZeta = Math.cos(zeta);
+//   let sinZeta = Math.sin(zeta);
+//   let theta = (2004.3109 - 0.8533 * T0 - 0.000217 * T0sq) * T + (-0.42665 - 0.000217 * T0) * Tsq - 0.041833 * Tcube;
+//   theta *= sec_to_rad;
+//   theta -= 2 * Math.PI * Math.floor(theta * 0.5 / Math.PI);
+//   let cosTheta = Math.cos(theta);
+//   let sinTheta = Math.sin(theta);
+//   let z = (0.7928 + 0.000411 * T0) * Tsq + 0.000205 * Tcube;
+//   z *= sec_to_rad;
+//   z -= 2 * Math.PI * Math.floor(z * 0.5 / Math.PI);
+//   z += zeta;
+//   let cosZ = Math.cos(z);
+//   let sinZ = Math.sin(z);
+//   let p = {
+//     p11: 0,
+//     p12: 0,
+//     p13: 0,
+//     p21: 0,
+//     p22: 0,
+//     p23: 0,
+//     p31: 0,
+//     p32: 0,
+//     p33: 0,
+//   };
 
-  p.p11 = -sinZ * sinZeta + cosZ * cosTheta * cosZeta;
-  p.p12 = -sinZ * cosZeta - cosZ * cosTheta * sinZeta;
-  p.p13 = -cosZ * sinTheta;
-  p.p21 = cosZ * sinZeta + sinZ * cosTheta * cosZeta;
-  p.p22 = cosZ * cosZeta - sinZ * cosTheta * sinZeta;
-  p.p23 = -sinZ * sinTheta;
-  p.p31 = sinTheta * cosZeta;
-  p.p32 = -sinTheta * sinZeta;
-  p.p33 = cosTheta;
+//   p.p11 = -sinZ * sinZeta + cosZ * cosTheta * cosZeta;
+//   p.p12 = -sinZ * cosZeta - cosZ * cosTheta * sinZeta;
+//   p.p13 = -cosZ * sinTheta;
+//   p.p21 = cosZ * sinZeta + sinZ * cosTheta * cosZeta;
+//   p.p22 = cosZ * cosZeta - sinZ * cosTheta * sinZeta;
+//   p.p23 = -sinZ * sinTheta;
+//   p.p31 = sinTheta * cosZeta;
+//   p.p32 = -sinTheta * sinZeta;
+//   p.p33 = cosTheta;
 
-  return p;
-}
+//   return p;
+// }
 
 /**
  * Compute the precessed ra and dec at time T0+T from the ra and dec at time T0 and the
  * transformation matrix p computed in precessionMatrix() above
  */
-const precessed_ra_dec = (ra0: number, dec0: number, p: PrecessionMatrix) => {
-  let x0 = Math.cos(dec0) * Math.cos(ra0);
-  let y0 = Math.cos(dec0) * Math.sin(ra0);
-  let z0 = Math.sin(dec0);
-  let x = p.p11 * x0 + p.p12 * y0 + p.p13 * z0;
-  let y = p.p21 * x0 + p.p22 * y0 + p.p23 * z0;
-  let z = p.p31 * x0 + p.p32 * y0 + p.p33 * z0;
-  let dec = Math.asin(z);
-  let ra = Math.atan2(y, x);
+// const precessed_ra_dec = (ra0: number, dec0: number, p: PrecessionMatrix) => {
+//   let x0 = Math.cos(dec0) * Math.cos(ra0);
+//   let y0 = Math.cos(dec0) * Math.sin(ra0);
+//   let z0 = Math.sin(dec0);
+//   let x = p.p11 * x0 + p.p12 * y0 + p.p13 * z0;
+//   let y = p.p21 * x0 + p.p22 * y0 + p.p23 * z0;
+//   let z = p.p31 * x0 + p.p32 * y0 + p.p33 * z0;
+//   let dec = Math.asin(z);
+//   let ra = Math.atan2(y, x);
 
-  return ({ ra, dec });
-}
+//   return ({ ra, dec });
+// }
 
 /**
  * The matrix precesses from T0=0 (J2000) to T (century from J2000).
@@ -162,119 +162,119 @@ const precessionMatrixVondrak = (T: number): PrecessionMatrix => {
  * Compute the Ra and Dec of the ecliptic north pole at time T (Julian century from J2000) with
  * respect to the J2000.0 mean equator and equinox.
  */
-const getEclipticNorthPole = (T: number) => {
-  // 2*pi / periods :
-  let omega = [0.008872675714438448, 0.002721171635850839, 0.01276551261109221, 0.005311230183583759, 0.01010158409514403, 0.01774911103723047, 0.006457538856299678, 0.01169573974755144, 0.01402496720352586, 0.01559490024120026];
-  let coefCosPhi = [-0.004042409513143679, 0.01369057902014126, -0.00272231303641459, 6.066147796929918e-05, -0.002643611413508775, 0.0003705237378617317, 0.0001300171245300725, 0.001793366356240462, 0.0006949647136035256, -0.0002841056070893575];
-  let coefSinPhi = [-0.02679541800930862, -0.005879989388723328, 0.002379320151262638, -0.001124940920469153, -0.0002535950507103844, -0.0002334436585479198, -4.630035619629337e-05, 0.0001949605448048464, -0.0001582323402321061, 6.429759997016795e-05];
-  let coefCosGamma = [-0.07027648004398257, -0.01050635377614501, 0.009206833364122355, -0.004338070256775063, 0.00159873402544959, -0.001266401388354526, 0.002365565589582342, -0.001406551395163585, -0.002497496966995317, 0.001041115112690355];
-  let coefSinGamma = [0.01094614582138286, -0.03731722874613446, 0.004834754426333641, 0.001314243946566702, 0.005865328196370537, -0.001594566164651417, -0.001397371249338167, -0.003275851922070258, -0.0005344059415931104, 0.0001760885226173251];
+// const getEclipticNorthPole = (T: number) => {
+//   // 2*pi / periods :
+//   let omega = [0.008872675714438448, 0.002721171635850839, 0.01276551261109221, 0.005311230183583759, 0.01010158409514403, 0.01774911103723047, 0.006457538856299678, 0.01169573974755144, 0.01402496720352586, 0.01559490024120026];
+//   let coefCosPhi = [-0.004042409513143679, 0.01369057902014126, -0.00272231303641459, 6.066147796929918e-05, -0.002643611413508775, 0.0003705237378617317, 0.0001300171245300725, 0.001793366356240462, 0.0006949647136035256, -0.0002841056070893575];
+//   let coefSinPhi = [-0.02679541800930862, -0.005879989388723328, 0.002379320151262638, -0.001124940920469153, -0.0002535950507103844, -0.0002334436585479198, -4.630035619629337e-05, 0.0001949605448048464, -0.0001582323402321061, 6.429759997016795e-05];
+//   let coefCosGamma = [-0.07027648004398257, -0.01050635377614501, 0.009206833364122355, -0.004338070256775063, 0.00159873402544959, -0.001266401388354526, 0.002365565589582342, -0.001406551395163585, -0.002497496966995317, 0.001041115112690355];
+//   let coefSinGamma = [0.01094614582138286, -0.03731722874613446, 0.004834754426333641, 0.001314243946566702, 0.005865328196370537, -0.001594566164651417, -0.001397371249338167, -0.003275851922070258, -0.0005344059415931104, 0.0001760885226173251];
 
-  let T2 = T * T;
-  let T3 = T * T2;
-  let phi = 0.4020449277403929 + 8.343285174584774e-06 * T
-    + 1.073862303657622e-09 * T2 - 3.456721546310992e-12 * T3;
-  let gamma = 0.07607910574041958 + 8.044557043881831e-06 * T
-    - 8.706623454941823e-09 * T2 - 3.616710061077139e-12 * T3;
+//   let T2 = T * T;
+//   let T3 = T * T2;
+//   let phi = 0.4020449277403929 + 8.343285174584774e-06 * T
+//     + 1.073862303657622e-09 * T2 - 3.456721546310992e-12 * T3;
+//   let gamma = 0.07607910574041958 + 8.044557043881831e-06 * T
+//     - 8.706623454941823e-09 * T2 - 3.616710061077139e-12 * T3;
 
-  for (let i = 0; i < 10; i++) {
-    let cosOmegaT = Math.cos(omega[i] * T);
-    let sinOmegaT = Math.sin(omega[i] * T);
-    phi += coefCosPhi[i] * cosOmegaT + coefSinPhi[i] * sinOmegaT;
-    gamma += (coefCosGamma[i] * cosOmegaT
-      + coefSinGamma[i] * sinOmegaT);
-  }
-  return { ra: gamma - 0.5 * Math.PI, dec: 0.5 * Math.PI - phi };
-}
+//   for (let i = 0; i < 10; i++) {
+//     let cosOmegaT = Math.cos(omega[i] * T);
+//     let sinOmegaT = Math.sin(omega[i] * T);
+//     phi += coefCosPhi[i] * cosOmegaT + coefSinPhi[i] * sinOmegaT;
+//     gamma += (coefCosGamma[i] * cosOmegaT
+//       + coefSinGamma[i] * sinOmegaT);
+//   }
+//   return { ra: gamma - 0.5 * Math.PI, dec: 0.5 * Math.PI - phi };
+// }
 
-/**
- * Compute the mean obliquity of the ecliptic at time T (Julian century from J2000).
- */
-const epsA = (T: number) => {
-  let omega = [0.01532858089089921, 0.015860621752315, 0.01169573974755144, 0.01559490024120026, 0.01506217261699529, 0.02174714560147994, 0.001554089860791389, 0.02053328531758035, 0.02268297944830176, 0.03095165175950535];
-  let cEps = [0.003654878375600794, -0.001201396532490081, 0.001839729670341384, -0.0002612203166421586, -0.0004368615016759239, -0.001714302097549313, -0.0003059918662245779, -0.0001369510752414054, 8.582844219576704e-05, 0.0001886473398345326];
-  let sEps = [-0.008264717248747798, -0.004180588892934996, 0.00217115166735481, -0.004312766318139272, 0.000923099046629921, -0.0002742348150863777, -0.001436127797997386, -0.0003677794257791271, 0.0003271207736678532, 1.461255099616602e-05];
-  let eps = 0.4073802401575857 + T * (1.757180522429052e-06
-    - T * (1.958162458001416e-10
-      + 5.332950492204896e-13 * T));
-  for (let i = 0; i < 10; i++) {
-    let ang = omega[i] * T;
-    let cosAng = Math.cos(ang), sinAng = Math.sin(ang);
-    eps += cEps[i] * cosAng + sEps[i] * sinAng;
-  }
-  return eps;
-}
+// /**
+//  * Compute the mean obliquity of the ecliptic at time T (Julian century from J2000).
+//  */
+// const epsA = (T: number) => {
+//   let omega = [0.01532858089089921, 0.015860621752315, 0.01169573974755144, 0.01559490024120026, 0.01506217261699529, 0.02174714560147994, 0.001554089860791389, 0.02053328531758035, 0.02268297944830176, 0.03095165175950535];
+//   let cEps = [0.003654878375600794, -0.001201396532490081, 0.001839729670341384, -0.0002612203166421586, -0.0004368615016759239, -0.001714302097549313, -0.0003059918662245779, -0.0001369510752414054, 8.582844219576704e-05, 0.0001886473398345326];
+//   let sEps = [-0.008264717248747798, -0.004180588892934996, 0.00217115166735481, -0.004312766318139272, 0.000923099046629921, -0.0002742348150863777, -0.001436127797997386, -0.0003677794257791271, 0.0003271207736678532, 1.461255099616602e-05];
+//   let eps = 0.4073802401575857 + T * (1.757180522429052e-06
+//     - T * (1.958162458001416e-10
+//       + 5.332950492204896e-13 * T));
+//   for (let i = 0; i < 10; i++) {
+//     let ang = omega[i] * T;
+//     let cosAng = Math.cos(ang), sinAng = Math.sin(ang);
+//     eps += cEps[i] * cosAng + sEps[i] * sinAng;
+//   }
+//   return eps;
+// }
 
-/**
- * Compute the nutation matrix and the equation of equinoxes.
- */
-const nutation = (T: number) => {
-  let T2 = T * T;
-  let T3 = T * T2;
-  let T4 = T2 * T2;
-  let T5 = T2 * T3;
-  let tpi = 2 * Math.PI;
+// /**
+//  * Compute the nutation matrix and the equation of equinoxes.
+//  */
+// const nutation = (T: number) => {
+//   let T2 = T * T;
+//   let T3 = T * T2;
+//   let T4 = T2 * T2;
+//   let T5 = T2 * T3;
+//   let tpi = 2 * Math.PI;
 
-  // Compute the mean obliquity of ecliptic
-  let epsA = 0.4090926006005829 - 0.00022707106390167 * T
-    - 8.876938501115605e-10 * T2 +
-    9.712757287348442e-09 * T3 - 2.792526803190927e-12 * T4
-    - 2.104091376015386e-13 * T5;
+//   // Compute the mean obliquity of ecliptic
+//   let epsA = 0.4090926006005829 - 0.00022707106390167 * T
+//     - 8.876938501115605e-10 * T2 +
+//     9.712757287348442e-09 * T3 - 2.792526803190927e-12 * T4
+//     - 2.104091376015386e-13 * T5;
 
-  // Compute the angles L, Lp, F, D, Omega
-  let L = mod2pi(2.355555743493879 + mod2pi(8328.691425719086 * T)
-    + 0.0001545547230282712 * T2 + 2.503335442409089e-07 * T3 - 1.186339077675034e-09 * T4);
-  let Lp = mod2pi(-0.04312518025660639 + mod2pi(628.3019551713968 * T)
-    - 2.681989283897953e-06 * T2 + 6.593466063089689e-10 * T3 - 5.570509195948569e-11 * T4);
-  let F = mod2pi(1.627905081537519 + mod2pi(8433.466156916373 * T)
-    - 6.181956210563916e-05 * T2 - 5.027517873105888e-09 * T3 + 2.021673050226765e-11 * T4);
-  let D = mod2pi(-1.084718718529083 + mod2pi(7771.377145593714 * T)
-    - 3.08855403687641e-05 * T2 + 3.196376599555171e-08 * T3 - 1.53637455543612e-10 * T4);
-  let Omg = mod2pi(2.182439196615671 + mod2pi(-33.75704595363087 * T)
-    + 3.622624787986675e-05 * T2 + 3.734034971905646e-08 * T3 - 2.879308452109534e-10 * T4);
-  let Dpsi = -(8.341905928143386e-05 + 8.46804664246782e-08 * T) * Math.sin(Omg)
-    - 6.385435421407674e-06 * Math.sin(2 * (F - D + Omg))
-    - 1.103636166255602e-06 * Math.sin(2 * (F + Omg)) +
-    1.005772161400512e-06 * Math.sin(2 * Omg) +
-    7.155253612348986e-07 * Math.sin(Lp)
-    - 2.505618914847115e-07 * Math.sin(Lp + 2 * (F - D + Omg)) +
-    3.447796126441765e-07 * Math.sin(L);
+//   // Compute the angles L, Lp, F, D, Omega
+//   let L = mod2pi(2.355555743493879 + mod2pi(8328.691425719086 * T)
+//     + 0.0001545547230282712 * T2 + 2.503335442409089e-07 * T3 - 1.186339077675034e-09 * T4);
+//   let Lp = mod2pi(-0.04312518025660639 + mod2pi(628.3019551713968 * T)
+//     - 2.681989283897953e-06 * T2 + 6.593466063089689e-10 * T3 - 5.570509195948569e-11 * T4);
+//   let F = mod2pi(1.627905081537519 + mod2pi(8433.466156916373 * T)
+//     - 6.181956210563916e-05 * T2 - 5.027517873105888e-09 * T3 + 2.021673050226765e-11 * T4);
+//   let D = mod2pi(-1.084718718529083 + mod2pi(7771.377145593714 * T)
+//     - 3.08855403687641e-05 * T2 + 3.196376599555171e-08 * T3 - 1.53637455543612e-10 * T4);
+//   let Omg = mod2pi(2.182439196615671 + mod2pi(-33.75704595363087 * T)
+//     + 3.622624787986675e-05 * T2 + 3.734034971905646e-08 * T3 - 2.879308452109534e-10 * T4);
+//   let Dpsi = -(8.341905928143386e-05 + 8.46804664246782e-08 * T) * Math.sin(Omg)
+//     - 6.385435421407674e-06 * Math.sin(2 * (F - D + Omg))
+//     - 1.103636166255602e-06 * Math.sin(2 * (F + Omg)) +
+//     1.005772161400512e-06 * Math.sin(2 * Omg) +
+//     7.155253612348986e-07 * Math.sin(Lp)
+//     - 2.505618914847115e-07 * Math.sin(Lp + 2 * (F - D + Omg)) +
+//     3.447796126441765e-07 * Math.sin(L);
 
-  let Deps = 4.462822944682345e-05 * Math.cos(Omg) +
-    2.778145290154494e-06 * Math.cos(2 * (F - D + Omg)) +
-    4.743703096047555e-07 * Math.cos(2 * (F + Omg))
-    - 4.351164002863597e-07 * Math.cos(2 * Omg);
+//   let Deps = 4.462822944682345e-05 * Math.cos(Omg) +
+//     2.778145290154494e-06 * Math.cos(2 * (F - D + Omg)) +
+//     4.743703096047555e-07 * Math.cos(2 * (F + Omg))
+//     - 4.351164002863597e-07 * Math.cos(2 * Omg);
 
-  let eps = epsA + Deps;
-  let cosDpsi = Math.cos(Dpsi), sinDpsi = Math.sin(Dpsi);
-  let cosEpsA = Math.cos(epsA), sinEpsA = Math.sin(epsA);
-  let cosEps = Math.cos(eps), sinEps = Math.sin(eps);
+//   let eps = epsA + Deps;
+//   let cosDpsi = Math.cos(Dpsi), sinDpsi = Math.sin(Dpsi);
+//   let cosEpsA = Math.cos(epsA), sinEpsA = Math.sin(epsA);
+//   let cosEps = Math.cos(eps), sinEps = Math.sin(eps);
 
-  // Ee: dominant term of the equation of equinoxes
-  let out = {
-    Ee: Dpsi * cosEpsA,
-    p11: 0,
-    p12: 0,
-    p13: 0,
-    p21: 0,
-    p22: 0,
-    p23: 0,
-    p31: 0,
-    p32: 0,
-    p33: 0,
-  };
+//   // Ee: dominant term of the equation of equinoxes
+//   let out = {
+//     Ee: Dpsi * cosEpsA,
+//     p11: 0,
+//     p12: 0,
+//     p13: 0,
+//     p21: 0,
+//     p22: 0,
+//     p23: 0,
+//     p31: 0,
+//     p32: 0,
+//     p33: 0,
+//   };
 
-  // Nutation matrix from Eq. (6.41) in Explanatory Supplement to the Astronomical Almanac
-  out.p11 = cosDpsi;
-  out.p12 = -sinDpsi * cosEpsA;
-  out.p13 = -sinDpsi * sinEpsA;
-  out.p21 = sinDpsi * cosEps;
-  out.p22 = cosDpsi * cosEps * cosEpsA + sinEps * sinEpsA;
-  out.p23 = cosDpsi * cosEps * sinEpsA - sinEps * cosEpsA;
-  out.p31 = sinDpsi * sinEps;
-  out.p32 = cosDpsi * sinEps * cosEpsA - cosEps * sinEpsA;
-  out.p33 = cosDpsi * sinEps * sinEpsA + cosEps * cosEpsA;
+//   // Nutation matrix from Eq. (6.41) in Explanatory Supplement to the Astronomical Almanac
+//   out.p11 = cosDpsi;
+//   out.p12 = -sinDpsi * cosEpsA;
+//   out.p13 = -sinDpsi * sinEpsA;
+//   out.p21 = sinDpsi * cosEps;
+//   out.p22 = cosDpsi * cosEps * cosEpsA + sinEps * sinEpsA;
+//   out.p23 = cosDpsi * cosEps * sinEpsA - sinEps * cosEpsA;
+//   out.p31 = sinDpsi * sinEps;
+//   out.p32 = cosDpsi * sinEps * cosEpsA - cosEps * sinEpsA;
+//   out.p33 = cosDpsi * sinEps * sinEpsA + cosEps * cosEpsA;
 
-  return out;
-}
+//   return out;
+// }
 

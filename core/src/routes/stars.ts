@@ -15,7 +15,7 @@ const starRoutes = async (app: any, _opts: any) => {
     client.release();
 
     reply.send({
-      stars: stars.rows,
+      data: stars.rows,
     });
   });
 
@@ -32,7 +32,7 @@ const starRoutes = async (app: any, _opts: any) => {
     client.release();
 
     reply.send({
-      stars: stars.rows,
+      data: stars.rows,
     });
   });
 
@@ -47,7 +47,22 @@ const starRoutes = async (app: any, _opts: any) => {
     client.release();
 
     reply.send({
-      stars: stars.rows,
+      data: stars.rows,
+    })
+  });
+
+  app.get('/stars/top', async (_req: any, reply: any) => {
+    const client = await app.pg.connect();
+
+    // Limiting magnitude -> 5.3
+    const stars = await client.query(
+      `SELECT * FROM hygdata_v3 WHERE PROPER IS NOT NULL`
+    );
+
+    client.release();
+
+    reply.send({
+      data: stars.rows,
     })
   });
 }
