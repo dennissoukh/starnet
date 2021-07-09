@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ApplicationLayout from '../modules/layouts/ApplicationLayout';
 import '../styles/globals.css';
-import Dashboard from './Dashboard';
-import Stars from './Stars';
+import Main from './Main';
 
 const App: React.FC = () => {
   return (
@@ -18,8 +17,7 @@ const App: React.FC = () => {
 const renderRoute = () => {
   return (
     <Switch>
-      <Route path="/" exact component={Dashboard}/>
-      <Route path="/stars" exact component={Stars}/>
+      <Route path="/" exact component={Main}/>
     </Switch>
   )
 }

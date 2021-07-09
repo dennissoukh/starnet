@@ -15,8 +15,7 @@ const ApplicationLayout: React.FC = ({ children }) => {
         ? null
         : null
       }
-      <Sidebar/>
-      <div style={{ paddingLeft: '90px' }}>
+      <div>
         {children}
       </div>
     </>
