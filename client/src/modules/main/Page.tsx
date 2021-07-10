@@ -1,6 +1,5 @@
 import React from 'react';
 import { Chart } from './Chart';
-import { VscAdd, VscSearch } from 'react-icons/vsc';
 import { Controls } from './Controls';
 import { Overview } from './Overview';
 

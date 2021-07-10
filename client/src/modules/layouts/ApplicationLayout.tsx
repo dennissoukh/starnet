@@ -1,6 +1,5 @@
 import React from 'react';
 import { useScreenType } from '../../hooks/useScreenType';
-import Sidebar from '../../ui/sidebar/Sidebar';
 
 const ApplicationLayout: React.FC = ({ children }) => {
   const screenType = useScreenType();
