@@ -1,7 +1,11 @@
 import React from 'react';
 import { VscAdd, VscSearch } from 'react-icons/vsc';
+import { useApplicationStore } from '../../global-stores/useApplicationStore';
+import { convertCoordinatesDMS } from '../../utils/converters';
 
 export const Overview: React.FC = () => {
+  const geolocation = useApplicationStore(state => state.geolocation);
+
   return (
     <div className="flex flex-col min-h-full">
       <div>
@@ -21,7 +25,7 @@ export const Overview: React.FC = () => {
               <VscAdd size={13}/>
             </div>
           </div>
-          <p className="text-xl tracking-wide">Earth, +53°20'49'', -6°14'38''</p>
+          <p className="text-xl tracking-wide">Earth, {convertCoordinatesDMS(geolocation.latitude)}, {convertCoordinatesDMS(geolocation.longitude)}</p>
         </div>
         <div className="border-b border-solid border-primary-800 flex">
           <div className="w-1/2 px-10 py-6 border-r border-solid border-primary-800">
