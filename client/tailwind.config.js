@@ -37,6 +37,7 @@ module.exports = {
         hover: 'var(--color-accent-washed-out)',
         disabled: 'var(--color-accent-disabled)',
       },
+      gray: 'var(--color-gray)',
     },
     fontSize: {
       tiny: '0.725rem',

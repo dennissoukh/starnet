@@ -1,4 +1,6 @@
 import { useState, useReducer, useCallback, useEffect } from 'react';
+import { useApplicationStore } from '../global-stores/useApplicationStore';
+import useLocalStorage from './useLocalStorage';
 
 export interface GeolocationOptionsProps {
   suppressOnMount?: boolean;
@@ -50,6 +52,8 @@ export default (
   }: GeolocationOptionsProps = { ...geolocationDefault }
 ): GeolocationProps => {
   const [suppress, setSuppress] = useState<boolean>(suppressOnMount as boolean);
+  const [storageGeolocation, setStorageGeolocation] = useLocalStorage('geolocation', null);
+  const setGeolocation = useApplicationStore((state: any) => state.setGeolocation);
 
   type ReducerActionProps = {
     type: string;
@@ -57,6 +61,11 @@ export default (
     coords?: CoordinatesProps['coords'] | undefined;
     watchId?: number;
   };
+
+  if (storageGeolocation) {
+    setGeolocation(storageGeolocation);
+    return storageGeolocation;
+  }
 
   const [patch, dispatch] = useReducer(
     (

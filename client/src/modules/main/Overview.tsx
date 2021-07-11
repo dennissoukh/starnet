@@ -3,6 +3,7 @@ import { VscAdd, VscSearch } from 'react-icons/vsc';
 import { useApplicationStore } from '../../global-stores/useApplicationStore';
 import { convertCoordinatesDMS } from '../../utils/converters';
 import { Modal } from '../../shared-components/Modal';
+import { LocationModal } from './LocationModal';
 
 export const Overview: React.FC = () => {
   const [modalActive, setModalActive] = useState(false);
@@ -33,7 +34,7 @@ export const Overview: React.FC = () => {
             isVisible={modalActive}
             title="Location"
           >
-            <span>ChIldren</span>
+            <LocationModal/>
           </Modal>
         </div>
         <div className="border-b border-solid border-primary-800 flex">

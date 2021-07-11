@@ -49,7 +49,7 @@ export const Modal: React.FC<Props> = ({ callback, isVisible, children, title })
               className="bg-primary-100 rounded-xl shadow-lg m-3 md:m-6 overflow-hidden"
               style={{ maxWidth: '900px', width: '95vw',  }}
             >
-              <div className="overflow-y-auto px-5 py-7 md:p-7 text-primary-900" style={{ maxHeight: '570px' }}>
+              <div className="overflow-y-auto px-5 py-7 md:px-10 text-primary-900" style={{ maxHeight: '600px' }}>
                 <div className="w-full flex justify-between items-center">
                   <div>
                     <span className="text-tiny uppercase">{title}</span>

@@ -29,6 +29,7 @@
   --color-accent: #5575E7;
   --color-accent-washed-out: #7690EB;
   --color-accent-disabled: #AABAF3;
+  --color-gray: #101018A9;
 }
 
 html,
@@ -54,4 +55,8 @@ h3 {
 
 h4 {
   font-size: 1.4rem;
+}
+
+.leaflet-marker-draggable {
+  transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
