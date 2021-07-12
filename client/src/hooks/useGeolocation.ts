@@ -1,7 +1,4 @@
 import { useState, useReducer, useCallback, useEffect } from 'react';
-import { useApplicationStore } from '../global-stores/useApplicationStore';
-import useLocalStorage from './useLocalStorage';
-
 export interface GeolocationOptionsProps {
   suppressOnMount?: boolean;
   positionOptions?: {
@@ -44,7 +41,7 @@ const geolocationDefault = {
   watchMode: false,
 };
 
-export default (
+const useGeolocation = (
   {
     suppressOnMount = geolocationDefault.suppressOnMount,
     positionOptions = { ...geolocationDefault.positionOptions },
@@ -52,8 +49,6 @@ export default (
   }: GeolocationOptionsProps = { ...geolocationDefault }
 ): GeolocationProps => {
   const [suppress, setSuppress] = useState<boolean>(suppressOnMount as boolean);
-  const [storageGeolocation, setStorageGeolocation] = useLocalStorage('geolocation', null);
-  const setGeolocation = useApplicationStore((state: any) => state.setGeolocation);
 
   type ReducerActionProps = {
     type: string;
@@ -61,11 +56,6 @@ export default (
     coords?: CoordinatesProps['coords'] | undefined;
     watchId?: number;
   };
-
-  if (storageGeolocation) {
-    setGeolocation(storageGeolocation);
-    return storageGeolocation;
-  }
 
   const [patch, dispatch] = useReducer(
     (
@@ -153,7 +143,10 @@ export default (
     } else {
       dispatch({ type: 'available', value: false });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [suppress, watchMode, patch.watchId]);
 
   return patch;
 }
+
+export default useGeolocation;
