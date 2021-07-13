@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-const useCanvas = (draw: any) => {
+const useCanvas = (draw: any, options: any) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -23,6 +23,19 @@ const useCanvas = (draw: any) => {
       window.cancelAnimationFrame(animationFrameId);
     }
   }, [draw]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current as unknown as HTMLCanvasElement;
+    const { width, height } = canvas.getBoundingClientRect();
+
+    if (canvas.width !== width || canvas.height !== height) {
+      const { devicePixelRatio:ratio = 1 } = window;
+      const context = canvas.getContext('2d');
+      canvas.width = width * ratio;
+      canvas.height = height * ratio;
+      context?.scale(ratio, ratio);
+    }
+  }, []);
 
   return canvasRef;
 }
