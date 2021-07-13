@@ -1,7 +1,8 @@
 const setup = (
   ctx: CanvasRenderingContext2D,
   length: number,
-  width: number
+  width: number,
+  azimuthOffset: number,
 ) => {
   const r = .47 * Math.max(length, width);
   const cx = .5 * length;
@@ -24,18 +25,22 @@ const setup = (
   ctx.stroke();
 
   // Draw azimuth labels in increments of 10
+  // The degrees of azimuth are measured from North to East
   let dA = 10;
   let n = 360 / dA;
   let dArad = dA * Math.PI / 180;
+
+  let rotate = azimuthOffset - 360 * Math.floor(azimuthOffset / 360);
+  rotate = azimuthOffset * Math.PI / 180;
 
   ctx.font = '14px Switzer-Variable';
   ctx.fillStyle = '#999';
 
   for (let i = 0; i < n; i++) {
-    let deg = i * dA;
+    let deg = i * dA - (rotate * 180 / Math.PI);
     deg -= 360 * Math.floor(deg / 360);
 
-    let A = i * dArad - 0;
+    let A = i * dArad - rotate;
     let cosA = Math.cos(A), sinA = Math.sin(A);
     let x1 = cx - r * sinA;
     let y1 = cy - r * cosA;

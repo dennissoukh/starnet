@@ -10,11 +10,11 @@ export const Chart: React.FC = () => {
   const settings = useStarChartStore(state => state.settings);
 
   const draw = (ctx: CanvasRenderingContext2D) => {
-    setup(ctx, length, width);
+    setup(ctx, length, width, settings.azimuthOffset);
   }
 
   return (
-    <Canvas draw={draw} width="900px" height="900px" />
+    <Canvas draw={draw} width="900px" height="900px"/>
   )
 }
 
