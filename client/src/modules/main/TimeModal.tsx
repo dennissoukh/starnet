@@ -12,6 +12,7 @@ export const TimeModal: React.FC<Props> = ({
 }) => {
   const timestamp = useStore(state => state.timestamp);
   const setTimestamp = useStore((state: any) => state.setTimestamp);
+  const setDate = useStore((state: any) => state.setDate);
 
   const setTimestampValue = (value: string, type: string) => {
     switch (type) {
@@ -73,6 +74,22 @@ export const TimeModal: React.FC<Props> = ({
       default:
         break;
     }
+  }
+
+  const setCustomTime = () => {
+    const date = new Date(
+      timestamp.year,
+      timestamp.month - 1,
+      timestamp.day,
+      timestamp.hours,
+      timestamp.minutes,
+      timestamp.seconds,
+      0,
+    );
+
+    console.log(date)
+
+    setDate(date);
   }
 
   return (
@@ -156,7 +173,12 @@ export const TimeModal: React.FC<Props> = ({
         </div>
       </div>
       <div className="mt-5">
-        <button className="text-sm tracking-wide bg-primary-200 px-6 py-3 hover:bg-primary-300 transition-colors">Set Time</button>
+        <button
+          className="text-sm tracking-wide bg-primary-200 px-6 py-3 hover:bg-primary-300 transition-colors"
+          onClick={setCustomTime}
+        >
+          Set Time
+        </button>
       </div>
     </div>
   )
