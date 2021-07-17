@@ -5,12 +5,13 @@ import { convertCoordinatesDMS, createTimeString } from '../../utils/converters'
 import { Modal } from '../../shared-components/Modal';
 import { LocationModal } from './LocationModal';
 import Time from './Time';
-import { getTimes } from '../../utils/sun';
+import { getMoonIllumination, getMoonPhase, getTimes } from '../../utils/sun';
 
 export const Overview: React.FC = () => {
   const [modalActive, setModalActive] = useState(false);
   const geolocation = useApplicationStore(state => state.geolocation);
   const [sun, setSun] = useState(getTimes(new Date(), geolocation.latitude, geolocation.longitude, 0));
+  const [moon, setMoon] = useState(getMoonIllumination(new Date()));
 
   useEffect(() => {
     const sun = getTimes(new Date(), geolocation.latitude, geolocation.longitude, 0);
@@ -52,6 +53,24 @@ export const Overview: React.FC = () => {
               </div> */}
             </div>
             <p className="text-xl tracking-wide">{sun.nauticalDusk.toLocaleTimeString()}</p>
+          </div>
+        </div>
+        <div className="border-b border-solid border-primary-800 flex">
+          <div className="w-1/2 px-10 py-6 border-r border-solid border-primary-800">
+            <div className="flex justify-between items-center text-primary-200">
+              <span className="font-light text-tiny uppercase">Moon Illumination</span>
+            </div>
+            <p className="text-xl tracking-wide">
+              {moon.fraction.toFixed(2)}
+            </p>
+          </div>
+          <div className="w-1/2 px-10 py-6 border-r border-solid border-primary-800">
+            <div className="flex justify-between items-center text-primary-200">
+              <span className="font-light text-tiny uppercase">Moon Phase</span>
+            </div>
+            <p className="text-xl tracking-wide">
+              {getMoonPhase(moon.phase)}
+            </p>
           </div>
         </div>
       </div>
