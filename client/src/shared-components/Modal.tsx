@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface Props {
   callback: Function,
   isVisible: boolean,
-  title?: string
+  title?: string,
+  maxWidth?: number,
 };
 
 const duration = 0.085;
@@ -28,7 +29,7 @@ const variants = {
   },
 };
 
-export const Modal: React.FC<Props> = ({ callback, isVisible, children, title }) => {
+export const Modal: React.FC<Props> = ({ callback, isVisible, children, title, maxWidth }) => {
   return (
     <AnimatePresence>
       {isVisible &&
@@ -47,7 +48,7 @@ export const Modal: React.FC<Props> = ({ callback, isVisible, children, title })
           <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
             <div
               className="bg-primary-100 rounded-xl shadow-lg m-3 md:m-6 overflow-hidden"
-              style={{ maxWidth: '900px', width: '95vw',  }}
+              style={{ maxWidth: maxWidth ? `${maxWidth}px` : '900px', width: '95vw',  }}
             >
               <div className="overflow-y-auto px-5 py-7 md:px-10 text-primary-900" style={{ maxHeight: '600px' }}>
                 <div className="w-full flex justify-between items-center">
