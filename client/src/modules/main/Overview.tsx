@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { VscAdd, VscSearch } from 'react-icons/vsc';
+import { VscAdd } from 'react-icons/vsc';
 import { useApplicationStore } from '../../global-stores/useApplicationStore';
-import { convertCoordinatesDMS, createTimeString } from '../../utils/converters';
+import { convertCoordinatesDMS } from '../../utils/converters';
 import { Modal } from '../../shared-components/Modal';
 import { LocationModal } from './LocationModal';
 import Time from './Time';
@@ -11,7 +11,7 @@ export const Overview: React.FC = () => {
   const [modalActive, setModalActive] = useState(false);
   const geolocation = useApplicationStore(state => state.geolocation);
   const [sun, setSun] = useState(getTimes(new Date(), geolocation.latitude, geolocation.longitude, 0));
-  const [moon, setMoon] = useState(getMoonIllumination(new Date()));
+  const [moon] = useState(getMoonIllumination(new Date()));
 
   useEffect(() => {
     const sun = getTimes(new Date(), geolocation.latitude, geolocation.longitude, 0);

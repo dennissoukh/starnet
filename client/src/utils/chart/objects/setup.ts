@@ -21,6 +21,7 @@ const setup = (
   ctx.strokeStyle = '#999';
   ctx.beginPath();
   ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+  ctx.setLineDash([]);
   ctx.closePath();
   ctx.stroke();
 
