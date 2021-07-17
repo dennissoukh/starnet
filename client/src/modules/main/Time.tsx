@@ -11,7 +11,6 @@ const Time: React.FC = () => {
   const date = useStore(state => state.date);
   const setDate = useStore((state: any) => state.setDate);
 
-  const timestamp = useStore(state => state.timestamp);
   const setTimestamp = useStore((state: any) => state.setTimestamp);
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

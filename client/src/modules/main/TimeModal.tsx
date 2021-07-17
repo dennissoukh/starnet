@@ -176,6 +176,7 @@ export const TimeModal: React.FC<Props> = ({
         <button
           className="text-sm tracking-wide bg-primary-200 px-6 py-3 hover:bg-primary-300 transition-colors"
           onClick={setCustomTime}
+          disabled={!custom}
         >
           Set Time
         </button>
