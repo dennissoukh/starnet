@@ -87,8 +87,6 @@ export const TimeModal: React.FC<Props> = ({
       0,
     );
 
-    console.log(date)
-
     setDate(date);
   }
 

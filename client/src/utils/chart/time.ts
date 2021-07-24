@@ -1,3 +1,4 @@
+import { AstroTimestamp } from "../../types/common";
 import { CalendarDate } from "./contracts";
 
 /**
@@ -62,7 +63,7 @@ export const calendarTimestamp = (D: number): CalendarDate => {
     f++;
   }
 
-  let dd = c - e - Math.floor(0.25 * d);
+  let dd = c - e - Math.floor(30.6001 * f);
   let mm = f - 1 - 12 * Math.floor(f / 14 + 1e-5);
   let yy = d - 4715 - Math.floor((7 + mm) / 10 + 1e-5);
   let ddFraction = D + 0.5 - Math.floor(D + 0.5);
@@ -222,5 +223,79 @@ export const deltaTSplineY = (y: number): number => {
   let dT = a0[i] + t * (a1[i] + t * (a2[i] + t * a3[i]));
 
   return dT;
+}
+
+// Calculate the mean Greenwich sidereal time in hours
+export const getGMST = (d: AstroTimestamp) => {
+  // Get Julian date at midnight GMST
+  let D0 = Math.floor(d.D - 0.5) + 0.5;
+
+  // Get hours according to UTC time
+  let H = d.h + d.m / 60 + d.s / 3600 + d.tz / 60;
+  H -= 24 * Math.floor(H / 24);
+
+  let GMST = 0.06570748587250752 * D0;
+  GMST -= 24 * Math.floor(GMST / 24);
+  GMST += 6.697374558336001 + 1.00273781191135448 * H;
+  GMST -= 24 * Math.floor(GMST / 24);
+
+  let T = d.T + d.dT;
+
+  GMST += 2.686296296296296e-07 + T * (0.08541030618518518 + T * 2.577003148148148e-05);
+  GMST -= 24 * Math.floor(GMST / 24);
+
+  return GMST;
+}
+
+export const getSidereal = (GMST: number, longitude: number) => {
+  let LST = GMST + longitude / 15;
+
+  // LST in hours
+  LST = LST - 24 * Math.floor(LST / 24);
+
+  // LST in radians
+  let LSTRad = LST * Math.PI / 12;
+
+  return {
+    hour: LST,
+    rad: LSTRad,
+  }
+}
+
+export const processTimestamp = (timestamp: Date, longitude: number) => {
+  let yyyy = timestamp.getFullYear(),
+    mm = timestamp.getMonth() + 1,
+    dd = timestamp.getDate(),
+    tz = timestamp.getTimezoneOffset(),
+    h = timestamp.getHours(),
+    m = timestamp.getMinutes(),
+    s = timestamp.getSeconds() + 1e-3 * timestamp.getMilliseconds(),
+    D = dMidnight(yyyy, mm, dd, tz) + (h + m / 60 + s / 3600) / 24,
+    T = D / 36525,
+    dT = deltaTPolynomial(T),
+    date = calendarTimestamp(D - tz / 1440);
+
+  let ts = {
+    yyyy: date.yy,
+    mm: date.mm,
+    dd: date.dd,
+    tz,
+    h: date.h,
+    m: date.m,
+    s: date.s,
+    D,
+    T,
+    dT,
+    // GMST: 0,
+    LST: { hour: 0, rad: 0 },
+  };
+
+  let GMST = getGMST(ts),
+    LST = getSidereal(GMST, longitude);
+
+  // ts.GMST = GMST;
+  ts.LST = LST;
+
+  return ts;
 }
 

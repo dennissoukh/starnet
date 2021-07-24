@@ -123,3 +123,53 @@ export const drawCircle = (
   }
 }
 
+export const raDecToCoordinates = (
+  raDec: { ra: number, dec: number },
+  LST: number,
+  cosLat: number,
+  sinLat: number,
+  azimuthOffset: number,
+  parameters: DrawingParameters,
+) => {
+  // Hour angle
+  let HA = (LST - raDec.ra);
+
+  let cosHA = Math.cos(HA), sinHA = Math.sin(HA);
+  let cosDec = Math.cos(raDec.dec), sinDec = Math.sin(raDec.dec);
+  let alt = sinDec * sinLat + cosLat * cosDec * cosHA;
+  alt = Math.asin(alt);
+  let cosAlt = Math.cos(alt);
+  let sinA = cosDec * sinHA / cosAlt;
+  let cosA = (cosDec * cosHA * sinLat - sinDec * cosLat) / cosAlt;
+
+  // Rotate the chart depending on the azimuth offset
+  let rotation = azimuthOffset - 360 * Math.floor(azimuthOffset / 360);
+  rotation = azimuthOffset * Math.PI / 180;
+
+  const cosRotation = Math.cos(rotation);
+  const sinRotation = Math.sin(rotation);
+
+  let sA = sinA * cosRotation - cosA * sinRotation;
+  let cA = cosA * cosRotation + sinA * sinRotation;
+
+  // The object is at the zenith or nadir
+  if (Math.abs(cosAlt) < 1e-10) {
+    sA = 0; cA = 1;
+  }
+
+  // TODO: Correct for atmospheric refraction
+
+  let x, y;
+  if (alt >= 0) {
+    // Stereographic projection
+    let rc = parameters.r * Math.tan(.5 * ((Math.PI / 2) - alt));
+    x = parameters.xc + rc * sA;
+    y = parameters.yc + rc * cA;
+  } else {
+    x = -999;
+    y = -999;
+  }
+
+  return { x, y };
+}
+

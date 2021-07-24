@@ -12,12 +12,13 @@ const useCanvas = (draw: any, options: any) => {
     let frameCount = 0;
     let animationFrameId: number;
 
-    const render = () => {
-      frameCount++;
-      draw(context, frameCount);
-      animationFrameId = window.requestAnimationFrame(render);
-    }
-    render();
+    // const render = () => {
+    //   frameCount++;
+    //   draw(context, frameCount);
+    //   animationFrameId = window.requestAnimationFrame(render);
+    // }
+    // render();
+    draw(context, frameCount);
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);

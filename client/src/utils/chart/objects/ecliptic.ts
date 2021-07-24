@@ -1,3 +1,4 @@
+import { epsA } from "../../precession";
 import { DrawingParameters } from "../contracts";
 import { drawCircle } from "../drawingTools";
 
@@ -7,9 +8,18 @@ const ecliptic = (
   width: number,
   latitude: number,
   azimuthOffset: number,
+  TD: number,
+  LST: number,
 ) => {
-  const ra = -.5 * Math.PI;
-  const dec = 1.1617037164980;
+  const ra = -0.5 * Math.PI;
+  let dec;
+
+  if (Math.abs(TD) < 1) {
+    dec = 1.16170371649804;
+  } else {
+    dec = 0.5 * Math.PI - epsA(TD);
+  }
+
   const pole = { ra, dec };
   const lat = latitude * (Math.PI / 180);
   const parameters: DrawingParameters = {
@@ -21,7 +31,7 @@ const ecliptic = (
     rotation: azimuthOffset,
   }
 
-  drawCircle(ctx, parameters, 2.46, lat, pole, azimuthOffset, 'brown', [10, 15]);
+  drawCircle(ctx, parameters, LST, lat, pole, azimuthOffset, 'brown', [10, 15]);
 }
 
 export default ecliptic;
