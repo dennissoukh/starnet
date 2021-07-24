@@ -179,8 +179,6 @@ export const geocentricToTopocentric = (
   LST: number,
   cosLat: number,
   sinLat: number,
-  azimuthOffset: number,
-  parameters: DrawingParameters,
 ) => {
   // Geocentric Cartesian coordinates of the object
   let x = rGeo * Math.cos(raDec.ra) * Math.cos(raDec.dec);

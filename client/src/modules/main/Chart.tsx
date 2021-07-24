@@ -22,7 +22,7 @@ export const Chart: React.FC = () => {
 
     // Time parameters
     const time = processTimestamp(timestamp, geolocation.longitude);
-    const T = time.T, TD = time.T + time.dT;
+    const TD = time.T + time.dT;
 
     if (settings.equator) {
       equator(ctx, length, width, geolocation.latitude, settings.azimuthOffset);

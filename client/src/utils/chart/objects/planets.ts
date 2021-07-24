@@ -3,7 +3,7 @@ import { precessionMatrix } from "../../precession";
 import { geocentricToTopocentric, raDecToCoordinates } from "../drawingTools";
 
 const planetColors = ['red', 'orange', '#68696d', '#8B7D82', '#993d00', '#b07f35', '#b08f36', '#5580aa', '#366896'];
-const planetNames = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
+// const planetNames = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
 const planetSizes = [1, 2, 1, 2, 2, 3, 2, 2, 2];
 const planetSymbols = [9788, 9789, 9791, 9792, 9794, 9795, 9796, 9954, 9798];
 const planetOffsets = [{ x: -10, y: 7 }, { x: -10, y: 7 }, { x: -5.5, y: 6 }, { x: -7, y: 1 }, { x: -6, y: 3 },
@@ -34,7 +34,7 @@ const planets = (
 
     if (i === 1) {
       // Convert geocentric coord. to topocentric coord. to correct for diurnal parallax of the Moon.
-      let topo = geocentricToTopocentric(planets[i].rGeo, raDec, LST, cosLat, sinLat, azimuthOffset, parameters);
+      let topo = geocentricToTopocentric(planets[i].rGeo, raDec, LST, cosLat, sinLat);
       raDec = { ra: topo.raTopo, dec: topo.decTopo };
     }
 
