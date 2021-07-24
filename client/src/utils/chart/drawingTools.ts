@@ -173,3 +173,38 @@ export const raDecToCoordinates = (
   return { x, y };
 }
 
+export const geocentricToTopocentric = (
+  rGeo: number,
+  raDec: { ra: number, dec: number },
+  LST: number,
+  cosLat: number,
+  sinLat: number,
+  azimuthOffset: number,
+  parameters: DrawingParameters,
+) => {
+  // Geocentric Cartesian coordinates of the object
+  let x = rGeo * Math.cos(raDec.ra) * Math.cos(raDec.dec);
+  let y = rGeo * Math.sin(raDec.ra) * Math.cos(raDec.dec);
+  let z = rGeo * Math.sin(raDec.dec);
+
+  // Geometric Cartesian coordinates of the location
+  let a = 6378.1366; // Earth's equatorial radius in km
+  let f1_f2 = 0.9933056020041341;
+  let aC = a / Math.sqrt(cosLat * cosLat + f1_f2 * sinLat * sinLat);
+  let aS = f1_f2 * aC;
+  let xloc = aC * cosLat * Math.cos(LST);
+  let yloc = aC * cosLat * Math.sin(LST);
+  let zloc = aS * sinLat;
+
+  // Topocentric Cartesian coordinates of the object
+  let xtopo = x - xloc;
+  let ytopo = y - yloc;
+  let ztopo = z - zloc;
+
+  // Topocentric Distance, Ra and Dec
+  let rTopo = Math.sqrt(xtopo * xtopo + ytopo * ytopo + ztopo * ztopo);
+  let raTopo = Math.atan2(ytopo, xtopo);
+  let decTopo = Math.asin(ztopo / rTopo);
+
+  return { rTopo, raTopo, decTopo };
+}

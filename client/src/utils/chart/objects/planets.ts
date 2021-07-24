@@ -1,6 +1,6 @@
 import { degreesToRadians, kepler, mod2pi, modulus } from "../../math";
 import { precessionMatrix } from "../../precession";
-import { raDecToCoordinates } from "../drawingTools";
+import { geocentricToTopocentric, raDecToCoordinates } from "../drawingTools";
 
 const planetColors = ['red', 'orange', '#68696d', '#8B7D82', '#993d00', '#b07f35', '#b08f36', '#5580aa', '#366896'];
 const planetNames = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
@@ -33,7 +33,9 @@ const planets = (
     let raDec = { ra: planets[i].ra, dec: planets[i].dec };
 
     if (i === 1) {
-      // TODO: Convert geocentric coord. -> topocentric coord. to correct for diurnal parallax of the Moon.
+      // Convert geocentric coord. to topocentric coord. to correct for diurnal parallax of the Moon.
+      let topo = geocentricToTopocentric(planets[i].rGeo, raDec, LST, cosLat, sinLat, azimuthOffset, parameters);
+      raDec = { ra: topo.raTopo, dec: topo.decTopo };
     }
 
     let coord = raDecToCoordinates(raDec, LST, cosLat, sinLat, azimuthOffset, parameters);
@@ -41,10 +43,9 @@ const planets = (
     if (coord.x > -998) {
       const x = coord.x; const y = coord.y;
 
-      // console.log(i, x, y);
-
       let symbol = String.fromCharCode(planetSymbols[i]);
-      ctx.font = "20px Georgia"
+
+      ctx.font = '20px Georgia'
       ctx.fillStyle = planetColors[i];
       ctx.fillText(symbol, x + planetOffsets[i].x, y + planetOffsets[i].y);
       ctx.beginPath();
