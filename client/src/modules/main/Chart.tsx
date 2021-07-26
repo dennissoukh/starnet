@@ -2,7 +2,6 @@ import React from 'react';
 import { useApplicationStore } from '../../global-stores/useApplicationStore';
 import { useStarChartStore } from '../../global-stores/useStarChartStore';
 import { useTimeStore } from '../../global-stores/useTimeStore';
-import useQuery from '../../hooks/useQuery';
 import ecliptic from '../../utils/chart/objects/ecliptic';
 import equator from '../../utils/chart/objects/equator';
 import planets from '../../utils/chart/objects/planets';
@@ -10,6 +9,7 @@ import stars from '../../utils/chart/objects/stars';
 import setup from '../../utils/chart/objects/setup';
 import { processTimestamp } from '../../utils/chart/time';
 import Canvas from './Canvas';
+import lines from '../../utils/chart/objects/lines';
 
 const length = 900;
 const width = 900;
@@ -32,6 +32,10 @@ export const Chart: React.FC<{ starData: any }> = ({ starData }) => {
 
     if (settings.ecliptic) {
       ecliptic(ctx, length, width, geolocation.latitude, settings.azimuthOffset, TD, time.LST.rad);
+    }
+
+    if (settings.constellationLines) {
+      lines(ctx, length, width, geolocation.latitude, settings.azimuthOffset, time.LST.rad, starData);
     }
 
     if (starData) {

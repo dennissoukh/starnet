@@ -123,6 +123,47 @@ export const drawCircle = (
   }
 }
 
+export const drawLine = (
+  ctx: CanvasRenderingContext2D,
+  parameters: DrawingParameters,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+) => {
+  const r1sq = (x1 - parameters.xc) ** 2 + (y1 - parameters.yc) ** 2;
+  const r2sq = (x2 - parameters.xc) ** 2 + (y2 - parameters.yc) ** 2;
+  const r2 = parameters.r * parameters.r;
+
+  // Both points are below the horizon
+  if (r1sq > r2 && r2sq > r2) {
+    return;
+  }
+
+  let x1p = x1, x2p = x2, y1p = y1, y2p = y2;
+  if (r1sq > r2 || r2sq > r2) {
+    let R1dotR2 = (x1 - parameters.xc) * (x2 - parameters.xc) + (y1 - parameters.yc) * (y2 - parameters.yc);
+    let dR1R2sq = (x1 - x2) ** 2 + (y1 - y2) ** 2;
+    let q = r1sq - R1dotR2;
+    let s;
+
+    if (r1sq <= r2) {
+      s = (q + Math.sqrt(q * q + dR1R2sq * (r2 - r1sq))) / dR1R2sq;
+      x2p = x1 + s * (x2 - x1);
+      y2p = y1 + s * (y2 - y1);
+    } else {
+      s = (q - Math.sqrt(q * q + dR1R2sq * (r2 - r1sq))) / dR1R2sq;
+      x1p = x1 + s * (x2 - x1);
+      y1p = y1 + s * (y2 - y1);
+    }
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(x1p, y1p);
+  ctx.lineTo(x2p, y2p);
+  ctx.stroke();
+}
+
 export const raDecToCoordinates = (
   raDec: { ra: number, dec: number },
   LST: number,

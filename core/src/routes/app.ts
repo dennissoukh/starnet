@@ -1,3 +1,4 @@
+import parseConstellationLinesFile from '../utils/parseConstellationLinesFile';
 import parseDSOFile from '../utils/parseDSOFile';
 import parseHYGFile from '../utils/parseHYGFile';
 
@@ -71,6 +72,13 @@ const routes = async (app: any, _opts: any) => {
         display_mag int
       );`,
     );
+
+    await client.query(
+      `CREATE TABLE IF NOT EXISTS constellation_lines (
+        name varchar(255),
+        lines integer ARRAY
+      );`,
+    )
 
     client.release();
 
@@ -219,6 +227,26 @@ const routes = async (app: any, _opts: any) => {
 
     reply.send({
       message: 'dso.csv saved in database',
+    });
+  });
+
+  app.get('/database/constellation-lines', async (_req: any, reply: any) => {
+    const constellations = await parseConstellationLinesFile();
+    const client = await app.pg.connect();
+
+    for await (const constellation of constellations) {
+      await client.query(
+        `INSERT INTO constellation_lines VALUES (
+          $1, $2
+        );`,
+        [constellation.name, constellation.lines]
+      );
+    }
+
+    client.release();
+
+    reply.send({
+      message: 'constellation_lines.json saved in database'
     });
   });
 
