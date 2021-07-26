@@ -10,6 +10,7 @@ import setup from '../../utils/chart/objects/setup';
 import { processTimestamp } from '../../utils/chart/time';
 import Canvas from './Canvas';
 import lines from '../../utils/chart/objects/lines';
+import names from '../../utils/chart/objects/names';
 
 const length = 900;
 const width = 900;
@@ -44,6 +45,10 @@ export const Chart: React.FC<{ starData: any }> = ({ starData }) => {
 
     if (settings.solarSystem) {
       planets(ctx, length, width, geolocation.latitude, settings.azimuthOffset, TD, time.LST.rad);
+    }
+
+    if (settings.constellationNames) {
+      names(ctx, length, width, geolocation.latitude, settings.azimuthOffset, time.LST.rad);
     }
   }
 
