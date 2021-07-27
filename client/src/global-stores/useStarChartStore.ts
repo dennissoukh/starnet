@@ -11,6 +11,7 @@ export const useStarChartStore = create(
         constellationNames: false,
         constellationLines: false,
         dso: false,
+        galacticCenter: false,
         limitingMagnitude: 5.3,
         azimuthOffset: 0,
       }
@@ -23,6 +24,7 @@ export const useStarChartStore = create(
       setConstellationNames: (constellationNames: boolean) => set((state) => ({ settings: { ...state.settings, constellationNames }})),
       setConstellationLines: (constellationLines: boolean) => set((state) => ({ settings: { ...state.settings, constellationLines }})),
       setDso: (dso: boolean) => set((state) => ({ settings: { ...state.settings, dso }})),
+      setGalacticCenter: (galacticCenter: boolean) => set((state) => ({ settings: { ...state.settings, galacticCenter }})),
       setLimitingMagnitude: (limitingMagnitude: number) => set((state) => ({ settings: { ...state.settings, limitingMagnitude }})),
       setAzimuthOffset: (azimuthOffset: number) => set((state) => ({ settings: { ...state.settings, azimuthOffset }})),
     }),

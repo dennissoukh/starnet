@@ -11,11 +11,13 @@ import { processTimestamp } from '../../utils/chart/time';
 import Canvas from './Canvas';
 import lines from '../../utils/chart/objects/lines';
 import names from '../../utils/chart/objects/names';
+import galaxy from '../../utils/chart/objects/galaxy';
+// import dso from '../../utils/chart/objects/dso';
 
 const length = 900;
 const width = 900;
 
-export const Chart: React.FC<{ starData: any }> = ({ starData }) => {
+export const Chart: React.FC = () => {
   const settings = useStarChartStore(state => state.settings);
   const geolocation = useApplicationStore(state => state.geolocation);
   const timestamp = useTimeStore(state => state.date);
@@ -27,6 +29,8 @@ export const Chart: React.FC<{ starData: any }> = ({ starData }) => {
     const time = processTimestamp(timestamp, geolocation.longitude);
     const TD = time.T + time.dT;
 
+    stars(ctx, length, width, geolocation.latitude, settings.azimuthOffset, time.LST.rad);
+
     if (settings.equator) {
       equator(ctx, length, width, geolocation.latitude, settings.azimuthOffset);
     }
@@ -36,11 +40,7 @@ export const Chart: React.FC<{ starData: any }> = ({ starData }) => {
     }
 
     if (settings.constellationLines) {
-      lines(ctx, length, width, geolocation.latitude, settings.azimuthOffset, time.LST.rad, starData);
-    }
-
-    if (starData) {
-      stars(starData, ctx, length, width, geolocation.latitude, settings.azimuthOffset, time.LST.rad);
+      lines(ctx, length, width, geolocation.latitude, settings.azimuthOffset, time.LST.rad);
     }
 
     if (settings.solarSystem) {
@@ -49,6 +49,10 @@ export const Chart: React.FC<{ starData: any }> = ({ starData }) => {
 
     if (settings.constellationNames) {
       names(ctx, length, width, geolocation.latitude, settings.azimuthOffset, time.LST.rad);
+    }
+
+    if (settings.galacticCenter) {
+      galaxy(ctx, length, width, geolocation.latitude, settings.azimuthOffset, time.LST.rad, TD);
     }
   }
 

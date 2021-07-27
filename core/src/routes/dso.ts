@@ -42,12 +42,13 @@ const dsoRoutes = async (app: any, _opts: any) => {
     // Limiting magnitude -> 6
     const dso = await client.query(
       `SELECT * FROM dso WHERE MAG <= 6`
+      // `SELECT * FROM dso WHERE id = 10582`
     );
 
     client.release();
 
     reply.send({
-      dso: dso.rows,
+      data: dso.rows,
     })
   });
 }

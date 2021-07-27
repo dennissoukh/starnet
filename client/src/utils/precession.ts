@@ -88,18 +88,18 @@ export const precessionMatrix = (T0: number, T: number) => {
  * Compute the precessed ra and dec at time T0+T from the ra and dec at time T0 and the
  * transformation matrix p computed in precessionMatrix() above
  */
-// const precessed_ra_dec = (ra0: number, dec0: number, p: PrecessionMatrix) => {
-//   let x0 = Math.cos(dec0) * Math.cos(ra0);
-//   let y0 = Math.cos(dec0) * Math.sin(ra0);
-//   let z0 = Math.sin(dec0);
-//   let x = p.p11 * x0 + p.p12 * y0 + p.p13 * z0;
-//   let y = p.p21 * x0 + p.p22 * y0 + p.p23 * z0;
-//   let z = p.p31 * x0 + p.p32 * y0 + p.p33 * z0;
-//   let dec = Math.asin(z);
-//   let ra = Math.atan2(y, x);
+export const precessedRaDec = (ra0: number, dec0: number, p: PrecessionMatrix) => {
+  let x0 = Math.cos(dec0) * Math.cos(ra0);
+  let y0 = Math.cos(dec0) * Math.sin(ra0);
+  let z0 = Math.sin(dec0);
+  let x = p.p11 * x0 + p.p12 * y0 + p.p13 * z0;
+  let y = p.p21 * x0 + p.p22 * y0 + p.p23 * z0;
+  let z = p.p31 * x0 + p.p32 * y0 + p.p33 * z0;
+  let dec = Math.asin(z);
+  let ra = Math.atan2(y, x);
 
-//   return ({ ra, dec });
-// }
+  return ({ ra, dec });
+}
 
 /**
  * The matrix precesses from T0=0 (J2000) to T (century from J2000).

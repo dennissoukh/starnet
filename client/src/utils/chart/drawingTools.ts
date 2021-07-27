@@ -164,6 +164,32 @@ export const drawLine = (
   ctx.stroke();
 }
 
+export const drawLineArray = (
+  ctx: CanvasRenderingContext2D,
+  parameters: DrawingParameters,
+  cosLat: number,
+  sinLat: number,
+  LST: number,
+  azimuthOffset: number,
+  line: Array<{ ra: number, dec: number }>,
+) => {
+  let x1, y1, x2, y2;
+  let raDec = { ra: line[0].ra, dec: line[0].dec };
+  let coord = raDecToCoordinates(raDec, LST, cosLat, sinLat, azimuthOffset, parameters);
+  x2 = coord.x; y2 = coord.y;
+
+  for (let i = 1; i < line.length; i++) {
+    x1 = x2; y1 = y2;
+    raDec = { ra: line[i].ra, dec: line[i].dec };
+    coord = raDecToCoordinates(raDec, LST, cosLat, sinLat, azimuthOffset, parameters);
+    x2 = coord.x; y2 = coord.y;
+
+    if (x1 > -998 && x2 > -998) {
+      drawLine(ctx, parameters, x1, y1, x2, y2);
+    }
+  }
+}
+
 export const raDecToCoordinates = (
   raDec: { ra: number, dec: number },
   LST: number,

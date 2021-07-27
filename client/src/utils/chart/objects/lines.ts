@@ -2,6 +2,7 @@ import { DrawingParameters } from "../contracts";
 import { lines as lineData } from '../../data/constellationLines';
 import { drawLine, raDecToCoordinates } from "../drawingTools";
 import { degreesToRadians } from "../../math";
+import starData from "../../data/stars";
 
 const lines = (
   ctx: CanvasRenderingContext2D,
@@ -10,7 +11,6 @@ const lines = (
   latitude: number,
   azimuthOffset: number,
   LST: number,
-  stars: Array<any>,
 ) => {
   const cosLat = Math.cos(degreesToRadians(latitude)), sinLat = Math.sin(degreesToRadians(latitude));
   const parameters: DrawingParameters = {
@@ -25,7 +25,7 @@ const lines = (
   ctx.strokeStyle = '#1B9722';
   ctx.setLineDash([]);
 
-  if (!stars) {
+  if (!starData) {
     return;
   }
 
@@ -34,8 +34,8 @@ const lines = (
       for (let i = 0; i < line.length - 1; i++) {
         const hip1 = line[i];
         const hip2 = line[i + 1];
-        const star1 = stars.find(s => s.hip === hip1);
-        const star2 = stars.find(s => s.hip === hip2);
+        const star1 = starData.find(s => s.hip === hip1);
+        const star2 = starData.find(s => s.hip === hip2);
 
         if (!star1 || !star2) {
           return;

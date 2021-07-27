@@ -12,7 +12,8 @@ export const Controls: React.FC = () => {
   const setSolarSystem = useStore((state: any) => state.setSolarSystem);
   const setConstellationNames = useStore((state: any) => state.setConstellationNames);
   const setConstellationLines = useStore((state: any) => state.setConstellationLines);
-  const setDso = useStore((state: any) => state.setDso);
+  // const setDso = useStore((state: any) => state.setDso);
+  const setGalacticCenter = useStore((state: any) => state.setGalacticCenter);
   const setLimitingMagnitude = useStore((state: any) => state.setLimitingMagnitude);
   const setAzimuthOffset = useStore((state: any) => state.setAzimuthOffset);
 
@@ -71,7 +72,7 @@ export const Controls: React.FC = () => {
           </div>
           <div className="w-1/2 px-10 py-6">
             <div className="flex items-center">
-              <label htmlFor="ecliptic">
+              <label htmlFor="ecliptic" className="cursor-pointer">
                 <input
                   type="checkbox"
                   name="ecliptic"
@@ -88,7 +89,7 @@ export const Controls: React.FC = () => {
         <div className="w-full flex text-sm border-t border-solid border-primary-800">
           <div className="w-1/2 px-10 py-6 border-r border-solid border-primary-800">
             <div className="flex items-center">
-              <label htmlFor="solar_system">
+              <label htmlFor="solar_system" className="cursor-pointer">
                 <input
                   type="checkbox"
                   name="solar_system"
@@ -103,7 +104,7 @@ export const Controls: React.FC = () => {
           </div>
           <div className="w-1/2 px-10 py-6">
             <div className="flex items-center">
-              <label htmlFor="con_name">
+              <label htmlFor="con_name" className="cursor-pointer">
                 <input
                   type="checkbox"
                   name="con_name"
@@ -120,22 +121,22 @@ export const Controls: React.FC = () => {
         <div className="w-full flex text-sm border-t border-solid border-primary-800">
           <div className="w-1/2 px-10 py-6 border-r border-solid border-primary-800">
             <div className="flex items-center">
-              <label htmlFor="dso">
+              <label htmlFor="galactic_center" className="cursor-pointer">
                 <input
                   type="checkbox"
-                  name="dso"
-                  id="dso"
+                  name="galactic_center"
+                  id="galactic_center"
                   className="mr-2"
-                  onChange={() => setDso(!settings.dso)}
-                  checked={settings.dso}
+                  onChange={() => setGalacticCenter(!settings.galacticCenter)}
+                  checked={settings.galacticCenter}
                 />
-                <span className="font-light text-sm select-none">Deep Sky Objects</span>
+                <span className="font-light text-sm select-none">Galactic Center</span>
               </label>
             </div>
           </div>
           <div className="w-1/2 px-10 py-6">
             <div className="flex items-center">
-              <label htmlFor="con_line">
+              <label htmlFor="con_line" className="cursor-pointer">
                 <input
                   type="checkbox"
                   name="con_line"

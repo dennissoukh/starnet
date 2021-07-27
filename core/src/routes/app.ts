@@ -178,7 +178,6 @@ const routes = async (app: any, _opts: any) => {
     const client = await app.pg.connect();
 
     for await (const object of objects) {
-      console.log(object.id)
       await client.query(
         `INSERT INTO dso VALUES (
           $1,
