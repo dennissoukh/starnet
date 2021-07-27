@@ -12,7 +12,6 @@ import Canvas from './Canvas';
 import lines from '../../utils/chart/objects/lines';
 import names from '../../utils/chart/objects/names';
 import galaxy from '../../utils/chart/objects/galaxy';
-// import dso from '../../utils/chart/objects/dso';
 
 const length = 900;
 const width = 900;

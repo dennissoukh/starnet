@@ -38,7 +38,7 @@ const Time: React.FC = () => {
   });
 
   return (
-    <div className="px-10 py-6 border-b border-solid border-primary-800">
+    <div className="px-5 lg:px-10 py-6 border-b border-solid border-primary-800">
       <div className="flex justify-between items-center text-primary-200">
         <span className="font-light text-tiny uppercase">Date &amp; Time</span>
         <div className="cursor-pointer" onClick={() => setModalActive(!modalActive)}>
@@ -46,7 +46,7 @@ const Time: React.FC = () => {
         </div>
       </div>
       {/* <p className="text-xl tracking-wide">20:02:04, 09th July 2021 UTC+01:00</p> */}
-      <p className="text-xl tracking-wide">{createTimeString(date)}</p>
+      <p className="text-lg lg:text-xl tracking-wide">{createTimeString(date)}</p>
       <Modal
         callback={setModalActive}
         isVisible={modalActive}

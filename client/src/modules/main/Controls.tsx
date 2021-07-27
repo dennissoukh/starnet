@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { VscAdd } from 'react-icons/vsc';
+// import { VscAdd } from 'react-icons/vsc';
 import { useStarChartStore as useStore } from '../../global-stores/useStarChartStore';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
@@ -14,8 +14,8 @@ export const Controls: React.FC = () => {
   const setConstellationLines = useStore((state: any) => state.setConstellationLines);
   // const setDso = useStore((state: any) => state.setDso);
   const setGalacticCenter = useStore((state: any) => state.setGalacticCenter);
-  const setLimitingMagnitude = useStore((state: any) => state.setLimitingMagnitude);
-  const setAzimuthOffset = useStore((state: any) => state.setAzimuthOffset);
+  // const setLimitingMagnitude = useStore((state: any) => state.setLimitingMagnitude);
+  // const setAzimuthOffset = useStore((state: any) => state.setAzimuthOffset);
 
   const [storageChart, setStorageChart] = useLocalStorage('chart', null);
 
@@ -34,7 +34,7 @@ export const Controls: React.FC = () => {
   return (
     <div className="flex-1 flex items-end w-full">
       <div className="w-full">
-        <div className="w-full flex text-sm border-t border-solid border-primary-800">
+        {/* <div className="w-full flex text-sm border-t border-solid border-primary-800">
           <div className="w-1/2 px-10 py-6 border-r border-solid border-primary-800">
             <div className="flex justify-between items-center text-primary-200">
               <span className="font-light text-tiny uppercase">Azimuth Offset</span>
@@ -53,9 +53,9 @@ export const Controls: React.FC = () => {
             </div>
             <p className="text-xl tracking-wide">{settings.limitingMagnitude}</p>
           </div>
-        </div>
+        </div> */}
         <div className="w-full flex text-sm border-t border-solid border-primary-800">
-          <div className="w-1/2 px-10 py-6 border-r border-solid border-primary-800">
+          <div className="w-1/2 px-5 lg:px-10 py-6 border-r border-solid border-primary-800">
             <div className="flex items-center">
               <label htmlFor="equator" className="cursor-pointer">
                 <input
@@ -70,7 +70,7 @@ export const Controls: React.FC = () => {
               </label>
             </div>
           </div>
-          <div className="w-1/2 px-10 py-6">
+          <div className="w-1/2 px-5 lg:px-10 py-6">
             <div className="flex items-center">
               <label htmlFor="ecliptic" className="cursor-pointer">
                 <input
@@ -87,7 +87,7 @@ export const Controls: React.FC = () => {
           </div>
         </div>
         <div className="w-full flex text-sm border-t border-solid border-primary-800">
-          <div className="w-1/2 px-10 py-6 border-r border-solid border-primary-800">
+          <div className="w-1/2 px-5 lg:px-10 py-6 border-r border-solid border-primary-800">
             <div className="flex items-center">
               <label htmlFor="solar_system" className="cursor-pointer">
                 <input
@@ -102,7 +102,7 @@ export const Controls: React.FC = () => {
               </label>
             </div>
           </div>
-          <div className="w-1/2 px-10 py-6">
+          <div className="w-1/2 px-5 lg:px-10 py-6">
             <div className="flex items-center">
               <label htmlFor="con_name" className="cursor-pointer">
                 <input
@@ -119,7 +119,7 @@ export const Controls: React.FC = () => {
           </div>
         </div>
         <div className="w-full flex text-sm border-t border-solid border-primary-800">
-          <div className="w-1/2 px-10 py-6 border-r border-solid border-primary-800">
+          <div className="w-1/2 px-5 lg:px-10 py-6 border-r border-solid border-primary-800">
             <div className="flex items-center">
               <label htmlFor="galactic_center" className="cursor-pointer">
                 <input
@@ -134,7 +134,7 @@ export const Controls: React.FC = () => {
               </label>
             </div>
           </div>
-          <div className="w-1/2 px-10 py-6">
+          <div className="w-1/2 px-5 lg:px-10 py-6">
             <div className="flex items-center">
               <label htmlFor="con_line" className="cursor-pointer">
                 <input

@@ -53,7 +53,11 @@ module.exports = {
       '6xl': '4rem',
       '7xl': '5rem',
     },
-    extend: {},
+    extend: {
+      minWidth: {
+        620: '620px'
+      }
+    },
   },
   variants: {
     extend: {},
