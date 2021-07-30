@@ -4,20 +4,20 @@ import useGeolocation from '../hooks/useGeolocation';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 export const Geolocation: React.FC = () => {
-  const { coords } = useGeolocation();
+//   const { coords } = useGeolocation();
   const setGeolocation = useApplicationStore((state: any) => state.setGeolocation);
   const [, setStorageGeolocation] = useLocalStorage('geolocation', null);
 
-  useEffect(() => {
-    if (coords) {
-      setGeolocation(coords);
-      setStorageGeolocation({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coords]);
+//   useEffect(() => {
+//     if (coords) {
+//       setGeolocation(coords);
+//       setStorageGeolocation({
+//         latitude: coords.latitude,
+//         longitude: coords.longitude,
+//       });
+//     }
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, [coords]);
 
   return (<></>);
 }
